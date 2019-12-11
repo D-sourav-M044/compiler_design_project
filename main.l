@@ -52,12 +52,14 @@ DIGIT [0-9]
 "round"	     { 
 	// printf("Found FullNumber type\n");
 	keywords++;
+	ints++;
 	return INT; 
 	}
 
 "broken"	     { 
 	// printf("Found RealNumber type\n");
 	keywords++;
+	floats++;
 	return FLOAT; }
 	
 "switch"  { 
@@ -97,12 +99,12 @@ DIGIT [0-9]
 "if"      { 
 	// printf("lex : Found if\n"); 
 	keywords++;
-	return JODI; }
+	return IF; }
 
 
 "otherwise"    { keywords++; return ELSE; }
 
-
+"un" {keywords++; return WHILE;}
 "loop"  { keywords++; return FOR; }
 
 "+"        { ops++; return SUM; }
@@ -132,6 +134,7 @@ DIGIT [0-9]
 "pow" { ops++; return TOTHEPOWER; }
 
 "return" {
+	keywords++;
 	return RET;
 }
 
@@ -161,14 +164,14 @@ DIGIT [0-9]
 "-"?{DIGIT}+ {
 	yylval.DOB=atof(yytext);
 	// printf("Fount number : %lf\n", yylval.DOB);
-	ints++;
+	//ints++;
 	return Number;
 	}
 
 "-"?{DIGIT}+?"."{DIGIT}+ {
 	yylval.DOB=atof(yytext);
 	// printf("Fount number : %lf\n", yylval.DOB);
-	floats++;
+	// floats++;
 	return Number;
 	}
 
@@ -190,24 +193,25 @@ int main()
 	yyparse();
 
 	fclose(yyin);
-	
-	printf("\n\nTotal Keywords is : %d\n", keywords);
-    
-	printf("Total Function_calls is : %d\n", function_calls);
+	printf("\n\n\t\t\t\t\t{final analysis}\n");
+	printf("NO of Punctuations is : %d\n", punc);
+	printf("No of total variable is : %d\n", ids);
+    printf("NO of Operators  : %d\n", ops);
+	printf("No of Function : %d\n", function_calls);
+    printf("No of round variable : %d\n", ints);
+	printf("No of Keywords : %d\n", keywords);
+    printf("NO of broken variable : %d\n", floats);
+	printf("NO of Spaces : %d\n", sp);
+    printf("NO of Newlines : %d\n", newline);
+	printf("done");
    
-	printf("Total Identifiers is : %d\n", ids);
+	
     
-	printf("Total Operators is : %d\n", ops);
+	
     
-	printf("Total Integers is : %d\n", ints);
-    
-	printf("Total Floats is : %d\n", floats);
-    
-	printf("Total Spaces is : %d\n", sp);
-    
-	printf("Total Newlines is : %d\n", newline);
+	
 
-	printf("Total Punctuations is : %d\n", punc);
+	
 
 	return 0;
     
