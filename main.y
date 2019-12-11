@@ -1,14 +1,11 @@
 %{
 	#include <stdio.h>
 	#include <math.h>
-	#define var 180
-	#define pi  3.1416
 	#include<stdlib.h>
 	#include<string.h>
 
-	typedef struct valueid {
+	typedef struct sourav {
 		char *name;
-		int type;
 		double val;
 	} ids;
 
@@ -17,8 +14,8 @@
 
 	//int sign[26];
 
-	struct valueid* checkId(char* id);
-	ids* makeId(char* id, int type, double val);
+	struct sourav* checkId(char* id);
+	ids* create(char* id,double val);
 %}
 
 %union {
@@ -58,7 +55,7 @@ sentence: /* empty */
 catch: TYPE Variable finish	{ 
 		ids *a = checkId($2);
 		if(a == NULL) {
-			ids *x = makeId($2, 1, 0);
+			ids *x = create($2,0);
 			printf("Declared variable-> %s : %lf\n", x->name, x->val);
 		}
 		else {
@@ -68,7 +65,7 @@ catch: TYPE Variable finish	{
 	| TYPE Variable ASSIGN expression finish {
 		ids *a = checkId($2);
 		if(a == NULL) {
-			ids *x = makeId($2, 1, $4);
+			ids *x = create($2,$4);
 			printf("Declared variable-> %s : %.10g\n", x->name, x->val);
 		}
 		else {
@@ -251,9 +248,9 @@ expression: Number		{ $$ = $1; 	}
 				    	}
 
 						
-	| expression SINE { $$=sin($1 * pi / var); printf(" sin value %.10g\n",$$); }
-	| expression COS { $$=cos($1 *pi / var); printf(" cos value %.10g\n",$$); }
-	| expression  TAN { $$=tan($1 *pi / var); printf(" tan value %.10g\n",$$); }
+	| expression SINE { $$=sin($1 * 3.1416/ 180); printf(" sin value %.10g\n",$$); }
+	| expression COS { $$=cos($1 *3.1416 / 180); printf(" cos value %.10g\n",$$); }
+	| expression  TAN { $$=tan($1 *3.1416/ 180); printf(" tan value %.10g\n",$$); }
 	| expression LN { $$=log($1); printf(" ln value %.10g\n",$$); }	
     | expression FACTORIAL {
 						int mult=1 ,i;
@@ -309,7 +306,7 @@ bool_expr:
 
 %%
 
-struct valueid *checkId(char* id) {
+struct sourav *checkId(char* id) {
 	for(int i = 0; i<count; i++) {
 		if(strcmp(sign2[i].name, id) == 0) {
 			return sign2+i;
@@ -318,7 +315,7 @@ struct valueid *checkId(char* id) {
 	return NULL;
 }
 
-ids* makeId(char* id, int type, double maan) {
+ids* create(char* id,double maan) {
 	ids *val = malloc(sizeof(ids));
 	char *name = malloc(sizeof(char)*10);
 	strcpy(name, id);
