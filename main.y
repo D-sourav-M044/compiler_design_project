@@ -14,7 +14,7 @@
 
 	//int sign[26];
 
-	struct sourav* checkId(char* id);
+	struct sourav* check(char* id);
 	ids* create(char* id,double val);
 %}
 
@@ -53,7 +53,7 @@ sentence: /* empty */
 	;
 	
 catch: TYPE Variable finish	{ 
-		ids *a = checkId($2);
+		ids *a = check($2);
 		if(a == NULL) {
 			ids *x = create($2,0);
 			printf("Declared variable-> %s : %lf\n", x->name, x->val);
@@ -63,13 +63,13 @@ catch: TYPE Variable finish	{
 		}
 	}
 	| TYPE Variable ASSIGN expression finish {
-		ids *a = checkId($2);
+		ids *a = check($2);
 		if(a == NULL) {
 			ids *x = create($2,$4);
-			printf("Declared variable-> %s : %.10g\n", x->name, x->val);
+			printf("variable declared %s : %.10g\n", x->name, x->val);
 		}
 		else {
-			printf("Already Declared variable : %s !\n", $2);
+			printf("variable is Already declared : %s !\n", $2);
 		}
 	}
 	;
@@ -79,15 +79,15 @@ TYPE : INT
      ;
 
 deal: finish {
-		printf("Found empty statement\n");
+		printf("empty statement\n");
 	}
 
 	| Variable ASSIGN expression finish {
-		ids* a = checkId($1);
+		ids* a = check($1);
 		if(a) {
 			a->val = $3;
 			$$ = $3;
-			printf("Updated variable-> %s : %.10g\n", $1, $3);
+			printf("Updated variable's value %s : %.10g\n", $1, $3);
 		}
 		else {
 			printf("Variable %s not declared!\n", $1);
@@ -96,7 +96,7 @@ deal: finish {
 
 	| expression finish { 
 		$$ = $1; 
-		printf("Value of expression: %.10g\n", $1); 
+		printf("Value of  the expression: %.10g\n", $1); 
 	}
 
 	| WHILE LP bool_expr RP STMNT_BLOCK 
@@ -108,18 +108,18 @@ deal: finish {
 	{
 								if($3)
 								{
-									printf("Expression in if is true\n");
+									printf("expression in if is true\n");
 								}
 								else
 								{
-									printf("Expression in if is false\n");
+									printf("expression in if is false\n");
 								}
 							}
 	
 	| IF LP bool_expr RP STMNT_BLOCK ELSE STMNT_BLOCK {
 								 	if($3)
 									{
-										printf("Expression in if is true\n");
+										printf("expression in if is true\n");
 									}
 									else
 									{
@@ -139,7 +139,7 @@ deal: finish {
 	}
 	|Variable INC finish
 	{
-		ids *a = checkId($1);
+		ids *a = check($1);
 		if(a==NULL)
 		printf("%s is not initialized",a);
 		else
@@ -147,14 +147,14 @@ deal: finish {
 	}
 	|Variable DEC finish
 	{
-		ids *a = checkId($1);
+		ids *a = check($1);
 		if(a==NULL)
 		printf("%s is not initialized",a);
 		else
 		printf("%s is decreased",a->name);	
 	}
 	| FOR LP Variable ASSIGN expression finish Variable LTE expression finish Variable INC RP STMNT_BLOCK {
-		ids *a = checkId($3);
+		ids *a = check($3);
 		if(a == NULL) {
 			a = malloc(sizeof(ids));
 		}
@@ -167,21 +167,21 @@ deal: finish {
 	}
 	
 	| Switch LP Variable RP Cases {
-		ids *a = checkId($3);
+		ids *a = check($3);
 		if(a) {
 			printf("Successful Switch Statement with \n\tvariable %s\n\tcase : %d\n", $3, (int)(a->val));
 		}
 		else {
-			printf("Variable %s not declared!\n", $3);
+			printf("Variable %s is  not declared!\n", $3);
 		}
 	}
 
-	| FUNCTION LP Variables RP FUNC_BLOCK {
+	| FUNCTION LP Variables RP PROGRAM {
 		printf("Successfully created function : %s with %d variables\n", $1, $3);
 	}
 	;
 
-FUNC_BLOCK: START_BLOCK sentence RET_STMNT END_BLOCK {
+PROGRAM: START_BLOCK sentence RET_STMNT END_BLOCK {
 
 }
 ;
@@ -213,14 +213,14 @@ ELSE_IF_BLOCK:  /* NULL */
 	}
 
 STMNT_BLOCK: START_BLOCK sentence END_BLOCK {
-	printf("Block Successfully Parsed\n");
+	printf("Successfully executed\n");
  }
 
 expression: Number		{ $$ = $1; 	}
 	
 	| LP expression RP { $$ = $2; }
 	| Variable			{
-		ids *a = checkId($1);
+		ids *a = check($1);
 		if(a) {
 			$$ = a->val;
 		}
@@ -259,7 +259,7 @@ expression: Number		{ $$ = $1; 	}
 							mult=mult*i;
 						}
 						$$=mult;
-						printf("factorial value !%.10g\n",$$); 
+						printf("factorial value is %.10g\n",$$); 
 					 }	
 					 
 	| expression TOTHEPOWER expression { $$=pow($1,$3); printf("To the power value %.10g\n",$$); }				 
@@ -306,7 +306,7 @@ bool_expr:
 
 %%
 
-struct sourav *checkId(char* id) {
+struct sourav *check(char* id) {
 	for(int i = 0; i<count; i++) {
 		if(strcmp(sign2[i].name, id) == 0) {
 			return sign2+i;
@@ -320,7 +320,6 @@ ids* create(char* id,double maan) {
 	char *name = malloc(sizeof(char)*10);
 	strcpy(name, id);
 	val->name = name;
-	val->type = type;
 	val->val = (double) maan;
 	sign2[count++] = *val;
 	return val;
