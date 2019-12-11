@@ -12,10 +12,10 @@
 		double val;
 	} ids;
 
-	ids sym2[10];
+	ids sign2[10];
 	int count = 0;
 
-	int sym[26];
+	//int sign[26];
 
 	struct valueid* checkId(char* id);
 	ids* makeId(char* id, int type, double val);
@@ -30,12 +30,12 @@
 %token <DOB>  Number    
 %token <id>  Variable  
 %type  <DOB>  expression 
-%type  <DOB>  subsent
+%type  <DOB>  deal
 %type  <IN>  bool_expr
 %type  <IN>  Variables
 %token <id>  FUNCTION
 
-%token AR INC DEC LP RP AND OR NOT ITEAM RET DIE ELSE_IF START_BLOCK THAN ASSIGN END_BLOCK Var BOOL_EXPR_CLOSE IF ELSE Main End INT FLOAT SUM SUB MUL DIV FOR WHILE DO LT GT GTE LTE finish SINE COS TAN LN FACTORIAL TOTHEPOWER Switch Case1 Case2 Case3
+%token AR INC DEC LP RP AND OR NOT ITEAM RET DIE ELSE_IF START_BLOCK THAN ASSIGN END_BLOCK Var BOOL_EXPR_CLOSE IF ELSE Main End INT FLOAT SUM SUB MUL DIV FOR WHILE DO LT GT GTE LTE finish SINE COS TAN LN FACTORIAL WHILE TOTHEPOWER Switch Case1 Case2 Case3
 %nonassoc IFX
 %nonassoc ELSE
 %nonassoc ASSIGN
@@ -51,11 +51,11 @@
 %%
 
 sentence: /* empty */
-	| sentence subsent
-	| sentence ghosona
+	| sentence deal
+	| sentence catch
 	;
 	
-ghosona: TYPE Variable finish	{ 
+catch: TYPE Variable finish	{ 
 		ids *a = checkId($2);
 		if(a == NULL) {
 			ids *x = makeId($2, 1, 0);
@@ -81,7 +81,7 @@ TYPE : INT
      | FLOAT
      ;
 
-subsent: finish {
+deal: finish {
 		printf("Found empty statement\n");
 	}
 
@@ -101,7 +101,12 @@ subsent: finish {
 		$$ = $1; 
 		printf("Value of expression: %.10g\n", $1); 
 	}
-	
+
+	| WHILE LP bool_expr RP STMNT_BLOCK 
+	{
+		printf("while calling");
+	}
+
 	| IF LP bool_expr RP STMNT_BLOCK 
 	{
 								if($3)
@@ -246,14 +251,10 @@ expression: Number		{ $$ = $1; 	}
 				    	}
 
 						
-	| expression SINE { $$=sin($1); printf(" sin value %.10g\n",$$); }
+	| expression SINE { $$=sin($1 * pi / var); printf(" sin value %.10g\n",$$); }
 	| expression COS { $$=cos($1 *pi / var); printf(" cos value %.10g\n",$$); }
-	| expression TAN { $$=tan($1 *pi / var); printf(" tan value %.10g\n",$$); }
+	| expression  TAN { $$=tan($1 *pi / var); printf(" tan value %.10g\n",$$); }
 	| expression LN { $$=log($1); printf(" ln value %.10g\n",$$); }	
-	| SINE expression
-	{ printf("done");
-		$$=sin($2*1);printf("value is %.10g\n",$$);} 
-
     | expression FACTORIAL {
 						int mult=1 ,i;
 						for(i=$1;i>0;i--)
@@ -268,9 +269,10 @@ expression: Number		{ $$ = $1; 	}
 	
         ;
 bool_expr:
-expression 
+|expression 
 	{
 		$$=1;
+		//printf("paichi");
 	}
 | expression GT expression {
 	$$ = $1 > $3;
@@ -309,8 +311,8 @@ expression
 
 struct valueid *checkId(char* id) {
 	for(int i = 0; i<count; i++) {
-		if(strcmp(sym2[i].name, id) == 0) {
-			return sym2+i;
+		if(strcmp(sign2[i].name, id) == 0) {
+			return sign2+i;
 		}
 	}
 	return NULL;
@@ -323,7 +325,7 @@ ids* makeId(char* id, int type, double maan) {
 	val->name = name;
 	val->type = type;
 	val->val = (double) maan;
-	sym2[count++] = *val;
+	sign2[count++] = *val;
 	return val;
 }
 
