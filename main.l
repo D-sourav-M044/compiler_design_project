@@ -13,25 +13,21 @@ int ops = 0;
 int ints = 0;
 int floats = 0;
 int sp = 0;
-int newline = 0;
+int line = 0;
 int punc = 0;
 
 
 %}
-
 IDENTIFIER [a-zA-Z][a-zA-Z0-9]*[_]?[a-zA-Z0-9]*
 DIGIT [0-9]
 
 %%
-
 "<<" {
-	printf("%s\n",yytext);
 	punc++;
 	return START_BLOCK;
 }
 ">>" {
 	punc++;
-	printf("%s\n",yytext);
 	return END_BLOCK;
 }
 ";" {
@@ -50,14 +46,12 @@ DIGIT [0-9]
 }
 
 "round"	     { 
-	// printf("Found FullNumber type\n");
 	keywords++;
 	ints++;
 	return INT; 
 	}
 
 "broken"	     { 
-	// printf("Found RealNumber type\n");
 	keywords++;
 	floats++;
 	return FLOAT; }
@@ -145,43 +139,36 @@ DIGIT [0-9]
 	strcpy(p,yytext);
 	yylval.id = p;
 	function_calls++;
-	//printf("lex : Found Identifier Function : %s\n", yytext);
 	return FUNCTION;
 	
 }
 
 {IDENTIFIER} {
-			printf("Found Identifier : %s\n", yytext);
+			printf("variable : %s\n", yytext);
 			char * p;
 			p=(char *) calloc(strlen(yytext)+1, sizeof(char));
 			strcpy(p,yytext);
 			yylval.id = p;
-			//printf("lex : Found Identifier : %s\n", yytext);
 			ids++;
 			return Variable;
 		}
 
 "-"?{DIGIT}+ {
 	yylval.DOB=atof(yytext);
-	// printf("Fount number : %lf\n", yylval.DOB);
-	//ints++;
 	return Number;
 	}
 
 "-"?{DIGIT}+?"."{DIGIT}+ {
 	yylval.DOB=atof(yytext);
-	// printf("Fount number : %lf\n", yylval.DOB);
-	// floats++;
 	return Number;
 	}
-
-\/\/.* {
-	//comments
-}
-
+"@@".*          { printf("single line comment\n"); }
+"@*"[^*@]*"*@"      { 
+	printf("multipleline comment\n");
+	 }
 [ ]*	{sp++;}
-[\t]*	{newline++;}
-[\n]* 	{newline++;}
+[\t]*	{line++; printf("\t\t\t\t\t line %d executed\n ",line);}
+[\n]* 	{line++; printf("\t\t\t\t\t line %d executed\n ",line);}
 	
 %%
 
@@ -202,16 +189,8 @@ int main()
 	printf("No of Keywords : %d\n", keywords);
     printf("NO of broken variable : %d\n", floats);
 	printf("NO of Spaces : %d\n", sp);
-    printf("NO of Newlines : %d\n", newline);
-	printf("done");
-   
-	
-    
-	
-    
-	
-
-	
+    printf("NO of Newlines : %d\n", line);
+	printf("\t\t\t\t\tprogram finished");
 
 	return 0;
     
