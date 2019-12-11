@@ -1,0 +1,7 @@
+round x=90;
+round y=3;
+x pow y ;
+sine x;
+
+
+

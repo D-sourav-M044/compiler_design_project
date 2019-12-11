@@ -1,0 +1,20 @@
+Found Identifier : x
+Declared variable-> x : 90
+Found Identifier : y
+Declared variable-> y : 3
+Found Identifier : x
+Found Identifier : y
+To the power value 729000
+Value of expression: 729000
+syntax error
+
+
+Total Keywords is : 2
+Total Function_calls is : 0
+Total Identifiers is : 4
+Total Operators is : 4
+Total Integers is : 2
+Total Floats is : 0
+Total Spaces is : 5
+Total Newlines is : 3
+Total Punctuations is : 3
