@@ -90,7 +90,7 @@ catch: INT Variable finish
 		ids *a = check($2);
 		if(a == NULL) {
 			ids *x = create($2,$4);
-			printf("variable declared %s : %.10g\n", x->name, x->val);
+			printf("\nvariable declared %s : %.10g\n", x->name, x->val);
 		}
 		else {
 			printf("variable is Already declared : %s !\n", $2);
@@ -114,7 +114,7 @@ deal: finish {
 			printf("Variable %s not declared!\n", $1);
 		}
 	}
-
+    
 	| expression finish { 
 		$$ = $1; 
 		printf("Value: %.10g\n", $1); 
@@ -247,10 +247,10 @@ ELSE_IF_BLOCK:  /* NULL */
 	| ELSE_IF LP bool_expr RP STMNT_BLOCK ELSE_IF_BLOCK 
 	{
 		if($3) {
-			printf("Expression in else if is : true");
+			printf("Expression in else if is : true\n");
 		}
 		else {
-			printf("Expression in else if is : true");
+			printf("Expression in else if is : false\n");
 
 		}
 	}
@@ -372,7 +372,7 @@ int getVal(char *id){
 ids* create(char* id,double maan) {
 	printf("value is :%lf",maan);
 	ids *val = malloc(sizeof(ids));
-	char *name = malloc(sizeof(char)*10);
+	char *name = malloc(sizeof(char)*strlen(id));
 	strcpy(name, id);
 	val->name = name;
 	val->val = (double) maan;
