@@ -4,6 +4,7 @@ round y=3;
 round z=4;
 broken b=4.5;
 round x=10;
+x;
 @@printing
 x;
 y;
@@ -11,6 +12,9 @@ z;
 w;
 loop(x=3;x<=5;x++)
 <<
+    loop(y=2;y<=5;y++)
+    <<
+    >>
     x sine;
 >>
 @@again printing x
@@ -21,6 +25,9 @@ b;
 @@while loop with un
 un(x<=8)
 <<
+    un(y<=8)
+    <<
+    >>
 >>
 @@printing again;
 x;
