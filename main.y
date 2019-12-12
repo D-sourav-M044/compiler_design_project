@@ -16,6 +16,8 @@
 
 	struct sourav* check(char* id);
 	ids* create(char* id,double val);
+	int getVal(char *id);
+	int Switchval;
 %}
 
 %union {
@@ -23,8 +25,8 @@
   int IN;
   char *id;
 }
-
-%token <DOB>  Number    
+%token <IN> Number
+%token <DOB>  Number1    
 %token <id>  Variable  
 %type  <DOB>  expression 
 %type  <DOB>  deal
@@ -32,7 +34,7 @@
 %type  <IN>  Variables
 %token <id>  FUNCTION
 
-%token AR INC DEC LP RP AND OR NOT ITEAM RET DIE ELSE_IF START_BLOCK THAN ASSIGN END_BLOCK Var BOOL_EXPR_CLOSE IF ELSE Main End INT FLOAT SUM SUB MUL DIV FOR WHILE DO LT GT GTE LTE finish SINE COS TAN LN FACTORIAL WHILE TOTHEPOWER Switch Case1 Case2 Case3
+%token AR INC DEC LP RP AND OR NOT ITEAM RET DIE ELSE_IF START_BLOCK THAN ASSIGN END_BLOCK Var BOOL_EXPR_CLOSE IF ELSE Main End INT FLOAT SUM SUB MUL DIV FOR WHILE DO LT GT GTE LTE finish SINE COS TAN LN FACTORIAL WHILE TOTHEPOWER Switch Case1 Case2 Case3 Number1
 %nonassoc IFX
 %nonassoc ELSE
 %nonassoc ASSIGN
@@ -52,7 +54,8 @@ sentence: /* empty */
 	| sentence catch
 	;
 	
-catch: TYPE Variable finish	{ 
+catch: INT Variable finish
+	{ 
 		ids *a = check($2);
 		if(a == NULL) {
 			ids *x = create($2,0);
@@ -61,8 +64,29 @@ catch: TYPE Variable finish	{
 		else {
 			printf("Already Declared variable : %s !\n", $2);
 		}
+	}	
+	| FLOAT Variable finish	{ 
+		ids *a = check($2);
+		if(a == NULL) {
+			ids *x = create($2,0);
+			printf("Declared variable-> %s : %lf\n", x->name, x->val);
+		}
+		else {
+			printf("Already Declared variable : %s !\n", $2);
+		}	
 	}
-	| TYPE Variable ASSIGN expression finish {
+	| INT Variable ASSIGN Number finish
+	 {
+		ids *a = check($2);
+		if(a == NULL) {
+			ids *x = create($2,$4);
+			printf("variable declared %s : %.10g\n", x->name, x->val);
+		}
+		else {
+			printf("variable is Already declared : %s !\n", $2);
+		}
+	}
+	| FLOAT Variable ASSIGN Number1 finish {
 		ids *a = check($2);
 		if(a == NULL) {
 			ids *x = create($2,$4);
@@ -99,41 +123,36 @@ deal: finish {
 		printf("Value of  the expression: %.10g\n", $1); 
 	}
 
-	| WHILE LP bool_expr RP STMNT_BLOCK 
-	{
-		printf("while calling");
-	}
-
 	| IF LP bool_expr RP STMNT_BLOCK 
 	{
 								if($3)
 								{
-									printf("expression in if is true\n");
+									printf("if part is true\n");
 								}
 								else
 								{
-									printf("expression in if is false\n");
+									printf("if part is false\n");
 								}
 							}
 	
 	| IF LP bool_expr RP STMNT_BLOCK ELSE STMNT_BLOCK {
 								 	if($3)
 									{
-										printf("expression in if is true\n");
+										printf("if part is true\n");
 									}
 									else
 									{
-										printf("Expression in if is false\n");
+										printf("if part is false\n");
 									}
 								   }
 
 
 	| IF LP bool_expr RP STMNT_BLOCK ELSE_IF_BLOCK ELSE STMNT_BLOCK {
 		if($3) {
-			printf("Expression in if is true\n");
+			printf("if part is true\n");
 		}
 		else {
-			printf("Expression in if is false\n");
+			printf("if part is false\n");
 
 		}
 	}
@@ -153,6 +172,16 @@ deal: finish {
 		else
 		printf("%s is decreased",a->name);	
 	}
+	| WHILE LP Variable LTE Number RP STMNT_BLOCK {
+		ids *a = check($3);
+		if(a == NULL) {
+			a = malloc(sizeof(ids));
+		}
+		int start =getVal($3);
+		int end = $5;
+		for(a->val = start; a->val <= end; a->val+=1)
+			printf("while : value of %s = %d\n", $3, (int)a->val);
+	}
 	| FOR LP Variable ASSIGN expression finish Variable LTE expression finish Variable INC RP STMNT_BLOCK {
 		ids *a = check($3);
 		if(a == NULL) {
@@ -166,18 +195,31 @@ deal: finish {
 		
 	}
 	
-	| Switch LP Variable RP Cases {
+	| Switch LP Variable RP {
 		ids *a = check($3);
 		if(a) {
 			printf("Successful Switch Statement with \n\tvariable %s\n\tcase : %d\n", $3, (int)(a->val));
+			Switchval = a->val;
 		}
 		else {
 			printf("Variable %s is  not declared!\n", $3);
 		}
-	}
+	} Cases
 
 	| FUNCTION LP Variables RP PROGRAM {
 		printf("Successfully created function : %s with %d variables\n", $1, $3);
+	}
+	|expression AND expression finish
+	{
+		printf("AND executed");
+	}
+	|expression OR expression finish
+	{
+		printf("OR executed");
+	}
+	|expression NOT finish
+	{
+		printf("NOT executed");
 	}
 	;
 
@@ -192,12 +234,16 @@ Variables : Variable { $$ = 1; }
 	| Variable AR Variables { $$ = 1 + $3; }
 	;
 Cases: /*empty*/
-	| Case Cases { }
+	| Case Cases
 	;
 Case: ITEAM Number STMNT_BLOCK {
+	if($2==Switchval){
+		printf("Case mATCHED\n");
+	}
 	if($2) {
 		printf("Case %d is done\n", (int)$2);
 	}
+
 }
 
 ELSE_IF_BLOCK:  /* NULL */
@@ -216,8 +262,9 @@ STMNT_BLOCK: START_BLOCK sentence END_BLOCK {
 	printf("Successfully executed\n");
  }
 
-expression: Number		{ $$ = $1; 	}
-	
+expression: Number{
+	$$ = $1; printf("came here %d\n",$1); 	
+	}	
 	| LP expression RP { $$ = $2; }
 	| Variable			{
 		ids *a = check($1);
@@ -314,8 +361,16 @@ struct sourav *check(char* id) {
 	}
 	return NULL;
 }
-
+int getVal(char *id){
+	ids *a = check(id);
+	if(a==NULL){
+		printf("Varriable is  not declared\n");
+		exit(-1);
+	}
+	return a->val;
+}
 ids* create(char* id,double maan) {
+	printf("value is :%lf",maan);
 	ids *val = malloc(sizeof(ids));
 	char *name = malloc(sizeof(char)*10);
 	strcpy(name, id);
