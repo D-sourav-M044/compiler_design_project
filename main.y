@@ -59,7 +59,7 @@ catch: INT Variable finish
 		ids *a = check($2);
 		if(a == NULL) {
 			ids *x = create($2,0);
-			printf("Declared variable-> %s : %lf\n", x->name, x->val);
+			printf("\nDeclared variable-> %s : %lf\n", x->name, x->val);
 		}
 		else {
 			printf("Already Declared variable : %s !\n", $2);
@@ -69,7 +69,7 @@ catch: INT Variable finish
 		ids *a = check($2);
 		if(a == NULL) {
 			ids *x = create($2,0);
-			printf("Declared variable-> %s : %lf\n", x->name, x->val);
+			printf("\nDeclared variable-> %s : %lf\n", x->name, x->val);
 		}
 		else {
 			printf("Already Declared variable : %s !\n", $2);
@@ -80,7 +80,7 @@ catch: INT Variable finish
 		ids *a = check($2);
 		if(a == NULL) {
 			ids *x = create($2,$4);
-			printf("variable declared %s : %.10g\n", x->name, x->val);
+			printf("\nvariable declared %s : %.10g\n", x->name, x->val);
 		}
 		else {
 			printf("variable is Already declared : %s !\n", $2);
@@ -98,9 +98,6 @@ catch: INT Variable finish
 	}
 	;
 			
-TYPE : INT
-     | FLOAT
-     ;
 
 deal: finish {
 		printf("empty statement\n");
@@ -120,7 +117,7 @@ deal: finish {
 
 	| expression finish { 
 		$$ = $1; 
-		printf("Value of  the expression: %.10g\n", $1); 
+		printf("Value: %.10g\n", $1); 
 	}
 
 	| IF LP bool_expr RP STMNT_BLOCK 
@@ -211,15 +208,15 @@ deal: finish {
 	}
 	|expression AND expression finish
 	{
-		printf("AND executed");
+		printf("AND executed\n");
 	}
 	|expression OR expression finish
 	{
-		printf("OR executed");
+		printf("OR executed\n");
 	}
 	|expression NOT finish
 	{
-		printf("NOT executed");
+		printf("NOT executed\n");
 	}
 	;
 
@@ -263,7 +260,7 @@ STMNT_BLOCK: START_BLOCK sentence END_BLOCK {
  }
 
 expression: Number{
-	$$ = $1; printf("came here %d\n",$1); 	
+	$$ = $1; printf("value is: %d\n",$1); 	
 	}	
 	| LP expression RP { $$ = $2; }
 	| Variable			{
@@ -276,6 +273,9 @@ expression: Number{
 			printf("Variable not declared!\n");
 		}
 	}
+	|Number1{
+	$$ = $1; 
+	}	
 
 	| expression SUM expression	   { $$ = $1 + $3; }
 
