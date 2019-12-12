@@ -1,20 +1,270 @@
-Found Identifier : x
-Declared variable-> x : 90
-Found Identifier : y
-Declared variable-> y : 3
-Found Identifier : x
-Found Identifier : y
-To the power value 729000
-Value of expression: 729000
-syntax error
+single line comment
+					 line 1 executed
+ variable : x
+value is :2.000000
+variable declared x : 2
+					 line 2 executed
+ variable : y
+value is :3.000000
+variable declared y : 3
+					 line 3 executed
+ variable : z
+value is :4.000000
+variable declared z : 4
+					 line 4 executed
+ variable : b
+value is :4.500000
+variable declared b : 4.5
+					 line 5 executed
+ variable : x
+variable is Already declared : x !
+					 line 6 executed
+ variable : x
+x is decreased					 line 7 executed
+ variable : x
+Value: 2
+					 line 8 executed
+ single line comment
+					 line 9 executed
+ variable : x
+Value: 2
+					 line 10 executed
+ variable : y
+Value: 3
+					 line 11 executed
+ variable : z
+Value: 4
+					 line 12 executed
+ variable : w
+Variable not declared!
+Value: 0
+					 line 13 executed
+ variable : x
+value is: 3
+variable : x
+value is: 5
+variable : x
+					 line 14 executed
+ 					 line 15 executed
+ variable : y
+value is: 2
+variable : y
+value is: 5
+variable : y
+					 line 16 executed
+ 					 line 17 executed
+ Successfully executed
+FOR : value of y = 2
+FOR : value of y = 3
+FOR : value of y = 4
+FOR : value of y = 5
+					 line 18 executed
+ variable : x
+ sin value 0.03489957828
+Value: 0.03489957828
+					 line 19 executed
+ Successfully executed
+FOR : value of x = 3
+FOR : value of x = 4
+FOR : value of x = 5
+					 line 20 executed
+ single line comment
+					 line 21 executed
+ variable : x
+Value: 6
+					 line 22 executed
+ variable : y
+Value: 6
+					 line 23 executed
+ variable : z
+Value: 4
+					 line 24 executed
+ variable : b
+Value: 4.5
+					 line 25 executed
+ single line comment
+					 line 26 executed
+ variable : x
+					 line 27 executed
+ 					 line 28 executed
+ variable : y
+					 line 29 executed
+ 					 line 30 executed
+ Successfully executed
+while : value of y = 6
+while : value of y = 7
+while : value of y = 8
+					 line 31 executed
+ Successfully executed
+while : value of x = 6
+while : value of x = 7
+while : value of x = 8
+					 line 32 executed
+ single line comment
+					 line 33 executed
+ variable : x
+Value: 9
+					 line 34 executed
+ variable : y
+Value: 9
+					 line 35 executed
+ variable : z
+Value: 4
+					 line 36 executed
+ variable : b
+Value: 4.5
+					 line 37 executed
+ single line comment
+					 line 38 executed
+ variable : x
+variable : y
+bool_expr [>]: 0
+					 line 39 executed
+ 					 line 40 executed
+ variable : x
+ sin value 0.1564348278
+Value: 0.1564348278
+					 line 41 executed
+ Successfully executed
+					 line 42 executed
+ variable : y
+variable : x
+bool_expr [>]: 0
+					 line 43 executed
+ 					 line 44 executed
+ variable : x
+ cos value 0.9876882831
+Value: 0.9876882831
+					 line 45 executed
+ Successfully executed
+					 line 46 executed
+ variable : z
+variable : x
+bool_expr [>]: 0
+					 line 47 executed
+ 					 line 48 executed
+ variable : x
+ tan value 0.1583848169
+Value: 0.1583848169
+					 line 49 executed
+ Successfully executed
+					 line 50 executed
+ Expression in else if is : false
+Expression in else if is : false
+					 line 51 executed
+ 					 line 52 executed
+ variable : x
+factorial value is 362880
+Value: 362880
+					 line 53 executed
+ Successfully executed
+if part is false
+					 line 54 executed
+ single line comment
+					 line 55 executed
+ variable : x
+Successful Switch Statement with 
+	variable x
+	case : 9
+					 line 56 executed
+ 					 line 57 executed
+ 					 line 58 executed
+ Successfully executed
+Case 1 is done
+					 line 59 executed
+ 					 line 60 executed
+ 					 line 61 executed
+ Successfully executed
+Case mATCHED
+Case 9 is done
+					 line 62 executed
+ 					 line 63 executed
+ 					 line 64 executed
+ Successfully executed
+Case 10 is done
+					 line 65 executed
+ single line comment
+					 line 66 executed
+ variable : x
+variable : y
+variable : z
+variable : b
+					 line 67 executed
+ 					 line 68 executed
+ variable : x
+variable : y
+variable : z
+variable : b
+					 line 69 executed
+ Successfully created function : func_add with 4 variables
+					 line 70 executed
+ single line comment
+					 line 71 executed
+ variable : x
+value is: 30
+Updated variable's value x : 30
+					 line 72 executed
+ variable : x
+Value: 30
+					 line 73 executed
+ single line comment
+					 line 74 executed
+ variable : x
+ sin value 0.5000010604
+Value: 0.5000010604
+					 line 75 executed
+ variable : x
+ cos value 0.8660247916
+Value: 0.8660247916
+					 line 76 executed
+ variable : x
+ tan value 0.5773519017
+Value: 0.5773519017
+					 line 77 executed
+ variable : x
+ ln value 3.401197382
+Value: 3.401197382
+					 line 78 executed
+ single line comment
+					 line 79 executed
+ variable : y
+Value: 9
+					 line 80 executed
+ variable : y
+factorial value is 362880
+Value: 362880
+					 line 81 executed
+ variable : y
+variable : y
+factorial value is 362880
+Updated variable's value y : 362880
+					 line 82 executed
+ variable : y
+Value: 362880
+					 line 83 executed
+ single line comment
+					 line 84 executed
+ variable : x
+variable : y
+AND executed
+					 line 85 executed
+ variable : x
+variable : y
+OR executed
+					 line 86 executed
+ variable : x
+NOT executed
+					 line 87 executed
+ 
 
-
-Total Keywords is : 2
-Total Function_calls is : 0
-Total Identifiers is : 4
-Total Operators is : 4
-Total Integers is : 2
-Total Floats is : 0
-Total Spaces is : 5
-Total Newlines is : 3
-Total Punctuations is : 3
+					{final analysis}
+NO of Punctuations is : 87
+No of total variable is : 63
+NO of Operators  : 36
+No of Function : 1
+No of round variable : 4
+No of Keywords : 18
+NO of broken variable : 1
+NO of Spaces : 42
+NO of Newlines : 87
+					program finished
