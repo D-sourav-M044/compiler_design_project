@@ -1,7 +1,79 @@
-round x=90;
+@@ declarations
+round x=2;
 round y=3;
-x pow y ;
-sine x;
-
-
-
+round z=4;
+broken b=4.5;
+round x=10;
+@@printing
+x;
+y;
+z;
+w;
+loop(x=3;x<=5;x++)
+<<
+    x sine;
+>>
+@@again printing x
+x;
+y;
+z;
+b;
+@@while loop with un
+un(x<=8)
+<<
+>>
+@@printing again;
+x;
+y;
+z;
+b;
+@@
+if(x>y)
+<<
+    x sine;
+>>
+elif(y>x)
+<<
+    x cos;
+>>
+elif(z>x)
+<<
+    x tan;
+>>
+otherwise
+<<
+    x fact;
+>>
+@@switch
+switch(x)
+iteam 1
+<<
+>>
+iteam 9
+<<
+>>
+iteam 10
+<<
+>>
+@@function
+func_add(x ar y ar z ar b)
+<<
+    return x+y+z+b;
+>>
+@@updating x
+x=30;
+x;
+@@some operations
+x sine;
+x cos;
+x tan;
+x ln;
+@@updating y
+y;
+y fact;
+y=y fact;
+y;
+@@ and or not operations
+x && y;
+x || y;
+x!;
