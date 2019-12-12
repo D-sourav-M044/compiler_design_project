@@ -152,16 +152,16 @@ DIGIT [0-9]
 			ids++;
 			return Variable;
 		}
-
-"-"?{DIGIT}+ {
-	yylval.DOB=atof(yytext);
-	return Number;
-	}
-
 "-"?{DIGIT}+?"."{DIGIT}+ {
 	yylval.DOB=atof(yytext);
+	return Number1;
+	}		
+
+"-"?{DIGIT}+ {
+	yylval.IN=atoi(yytext);
 	return Number;
 	}
+
 "@@".*          { printf("single line comment\n"); }
 "@*"[^*@]*"*@"      { 
 	printf("multipleline comment\n");
